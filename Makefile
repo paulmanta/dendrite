@@ -3,6 +3,7 @@
 # -----------------------------------------------------------------------------
 
 find = $(wildcard $1/*$2) $(foreach d,$(wildcard $1/*),$(call find,$d,$2))
+run-integration-test = (export PYTHONPATH=. && python3 -m tests.integration.$1.main)
 
 # -----------------------------------------------------------------------------
 # Directory names
@@ -34,6 +35,14 @@ clean:
 .PHONY: unit
 unit:
 	@nosetests -w . $(UNIT_TEST_DIR)
+
+.PHONY: test-iris
+test-iris:
+	@$(call run-integration-test,iris)
+
+.PHONY: test-autovit
+test-autovit:
+	@$(call run-integration-test,autovit)
 
 .PHONY: pep8
 pep8:
